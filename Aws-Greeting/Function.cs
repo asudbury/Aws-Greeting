@@ -35,6 +35,8 @@ namespace Aws_Greeting
 
                 LogMessage(context, responseMessage);
 
+                LogMessage(context, "Processing request ended");
+
                 return CreateResponse(responseMessage);
             }
 
@@ -60,7 +62,7 @@ namespace Aws_Greeting
                 Body = result,
                 Headers = new Dictionary<string, string>
                 {
-                    { "Content-Type", "application/text" },
+                    { "Content-Type", "text/html" },
                     { "Access-Control-Allow-Origin", "*" }
                 }
             };
