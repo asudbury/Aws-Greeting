@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
@@ -14,7 +15,7 @@ namespace Aws_Greeting
     public class Function
     {
         public APIGatewayProxyResponse FunctionHandler(
-            APIGatewayProxyRequest request, 
+            APIGatewayProxyRequest request,
             ILambdaContext context)
         {
             LogMessage(context, "Processing request started");
@@ -23,7 +24,7 @@ namespace Aws_Greeting
             {
                 string name = null;
 
-                if (request.QueryStringParameters != null && 
+                if (request.QueryStringParameters != null &&
                     request.QueryStringParameters.Any())
                 {
                     name = request.QueryStringParameters["name"];
@@ -50,7 +51,7 @@ namespace Aws_Greeting
             return CreateResponse(null);
         }
 
-        APIGatewayProxyResponse CreateResponse(string? result)
+        private APIGatewayProxyResponse CreateResponse(string result)
         {
             int statusCode = (result != null) ?
                 (int)HttpStatusCode.OK :
@@ -71,13 +72,18 @@ namespace Aws_Greeting
         }
 
         private void LogMessage(
-            ILambdaContext context, 
+            ILambdaContext context,
             string msg)
         {
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+
             context.Logger.LogLine(
-                string.Format("{0}:{1} - {2}",
+                string.Format("{0}:{1} v{2}.{3}.{4} - {5}",
                     context.AwsRequestId,
                     context.FunctionName,
+                    version.Major,
+                    version.Minor,
+                    version.Build,
                     msg));
         }
     }

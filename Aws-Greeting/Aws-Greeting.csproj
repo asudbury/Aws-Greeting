@@ -3,6 +3,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <AWSProjectType>Lambda</AWSProjectType>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.3.0" />
